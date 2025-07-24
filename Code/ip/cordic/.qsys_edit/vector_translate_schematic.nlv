@@ -1,0 +1,13 @@
+# # File gsaved with Nlview version 6.3.8  2013-12-19 bk=1.2992 VDI=34 GEI=35
+# 
+preplace inst vector_translate -pg 1 -lvl 1 -y 40 -regy -20
+preplace inst vector_translate.CORDIC_0 -pg 1 -lvl 1 -y 30
+preplace netloc EXPORT<net_container>vector_translate</net_container>(SLAVE)CORDIC_0.y,(SLAVE)vector_translate.y) 1 0 1 NJ
+preplace netloc EXPORT<net_container>vector_translate</net_container>(SLAVE)CORDIC_0.x,(SLAVE)vector_translate.x) 1 0 1 NJ
+preplace netloc EXPORT<net_container>vector_translate</net_container>(SLAVE)vector_translate.clk,(SLAVE)CORDIC_0.clk) 1 0 1 NJ
+preplace netloc EXPORT<net_container>vector_translate</net_container>(SLAVE)vector_translate.en,(SLAVE)CORDIC_0.en) 1 0 1 NJ
+preplace netloc EXPORT<net_container>vector_translate</net_container>(SLAVE)CORDIC_0.r,(SLAVE)vector_translate.r) 1 0 1 NJ
+preplace netloc EXPORT<net_container>vector_translate</net_container>(SLAVE)vector_translate.q,(SLAVE)CORDIC_0.q) 1 0 1 NJ
+preplace netloc EXPORT<net_container>vector_translate</net_container>(SLAVE)vector_translate.areset,(SLAVE)CORDIC_0.areset) 1 0 1 NJ
+levelinfo -pg 1 0 50 190
+levelinfo -hier vector_translate 60 90 170

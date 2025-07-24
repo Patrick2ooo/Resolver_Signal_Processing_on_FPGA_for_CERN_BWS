@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<deploy
+ date="2025.07.16.16:12:07"
+ outputDirectory="/home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate/">
+ <perimeter>
+  <parameter
+     name="AUTO_GENERATION_ID"
+     type="Integer"
+     defaultValue="0"
+     onHdl="0"
+     affectsHdl="1" />
+  <parameter
+     name="AUTO_UNIQUE_ID"
+     type="String"
+     defaultValue=""
+     onHdl="0"
+     affectsHdl="1" />
+  <parameter
+     name="AUTO_DEVICE_FAMILY"
+     type="String"
+     defaultValue="Arria V"
+     onHdl="0"
+     affectsHdl="1" />
+  <parameter
+     name="AUTO_DEVICE"
+     type="String"
+     defaultValue="5AGXMB1G4F40C4"
+     onHdl="0"
+     affectsHdl="1" />
+  <parameter
+     name="AUTO_DEVICE_SPEEDGRADE"
+     type="String"
+     defaultValue="4_H4"
+     onHdl="0"
+     affectsHdl="1" />
+  <parameter
+     name="AUTO_CLK_CLOCK_RATE"
+     type="Long"
+     defaultValue="-1"
+     onHdl="0"
+     affectsHdl="1" />
+  <parameter
+     name="AUTO_CLK_CLOCK_DOMAIN"
+     type="Integer"
+     defaultValue="-1"
+     onHdl="0"
+     affectsHdl="1" />
+  <parameter
+     name="AUTO_CLK_RESET_DOMAIN"
+     type="Integer"
+     defaultValue="-1"
+     onHdl="0"
+     affectsHdl="1" />
+  <interface name="areset" kind="reset" start="0">
+   <property name="associatedClock" value="clk" />
+   <property name="synchronousEdges" value="DEASSERT" />
+   <port name="areset" direction="input" role="reset" width="1" />
+  </interface>
+  <interface name="clk" kind="clock" start="0">
+   <property name="clockRate" value="0" />
+   <property name="externallyDriven" value="false" />
+   <property name="ptfSchematicName" value="" />
+   <port name="clk" direction="input" role="clk" width="1" />
+  </interface>
+  <interface name="en" kind="conduit" start="0">
+   <property name="associatedClock" value="clk" />
+   <property name="associatedReset" value="" />
+   <port name="en" direction="input" role="en" width="1" />
+  </interface>
+  <interface name="q" kind="conduit" start="0">
+   <property name="associatedClock" value="clk" />
+   <property name="associatedReset" value="" />
+   <port name="q" direction="output" role="q" width="16" />
+  </interface>
+  <interface name="r" kind="conduit" start="0">
+   <property name="associatedClock" value="clk" />
+   <property name="associatedReset" value="" />
+   <port name="r" direction="output" role="r" width="16" />
+  </interface>
+  <interface name="x" kind="conduit" start="0">
+   <property name="associatedClock" value="clk" />
+   <property name="associatedReset" value="areset" />
+   <port name="x" direction="input" role="x" width="15" />
+  </interface>
+  <interface name="y" kind="conduit" start="0">
+   <property name="associatedClock" value="clk" />
+   <property name="associatedReset" value="areset" />
+   <port name="y" direction="input" role="y" width="15" />
+  </interface>
+ </perimeter>
+ <entity
+   path=""
+   parameterizationKey="vector_translate:1.0:AUTO_CLK_CLOCK_DOMAIN=-1,AUTO_CLK_CLOCK_RATE=-1,AUTO_CLK_RESET_DOMAIN=-1,AUTO_DEVICE=5AGXMB1G4F40C4,AUTO_DEVICE_FAMILY=Arria V,AUTO_DEVICE_SPEEDGRADE=4_H4,AUTO_GENERATION_ID=1752675124,AUTO_UNIQUE_ID=(altera_CORDIC:23.1:ALL_function=VECTRANSLATE,FUNCTION_FAMILY=ALL,LUTSize=6,RES_DSP_param=0,RES_LUT_param=0,RES_MBIT_param=0,RES_MBLOCK_param=0,SFCompensation=false,derivedfunction=VECTRANSLATE,force_elaborate=0,frequency_feedback=0,frequency_target=40,fxpt_in_2_fraction_derived=0,fxpt_in_2_sign_derived=1,fxpt_in_2_width_derived=32,fxpt_in_fraction=0,fxpt_in_fraction_derived=0,fxpt_in_sign=1,fxpt_in_sign_derived=1,fxpt_in_width=15,fxpt_in_width_derived=32,fxpt_out_2_fraction_derived=0,fxpt_out_2_sign_derived=0,fxpt_out_2_width_derived=16,fxpt_out_fraction=13,fxpt_out_fraction_derived=0,fxpt_out_sign=0,fxpt_out_sign_derived=1,fxpt_out_width=32,fxpt_out_width_derived=16,gen_enable=true,latency_feedback=0,latency_target=0,performance_goal=frequency,report_resources_to_xml=false,selected_device_family=Arria V,selected_device_speedgrade=4_H4,specifyLUTs=false,useLUTs=false,validation_failed=false)"
+   instancePathKey="vector_translate"
+   kind="vector_translate"
+   version="1.0"
+   name="vector_translate">
+  <parameter name="AUTO_CLK_CLOCK_RATE" value="-1" />
+  <parameter name="AUTO_GENERATION_ID" value="1752675124" />
+  <parameter name="AUTO_DEVICE" value="5AGXMB1G4F40C4" />
+  <parameter name="AUTO_DEVICE_FAMILY" value="Arria V" />
+  <parameter name="AUTO_CLK_RESET_DOMAIN" value="-1" />
+  <parameter name="AUTO_CLK_CLOCK_DOMAIN" value="-1" />
+  <parameter name="AUTO_UNIQUE_ID" value="" />
+  <parameter name="AUTO_DEVICE_SPEEDGRADE" value="4_H4" />
+  <generatedFiles>
+   <file
+       path="/home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate/synthesis/vector_translate.vhd"
+       type="VHDL" />
+  </generatedFiles>
+  <childGeneratedFiles>
+   <file
+       path="/home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate/synthesis/submodules/dspba_library_package.vhd"
+       type="VHDL"
+       attributes="" />
+   <file
+       path="/home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate/synthesis/submodules/dspba_library.vhd"
+       type="VHDL"
+       attributes="" />
+   <file
+       path="/home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate/synthesis/submodules/vector_translate_CORDIC_0.vhd"
+       type="VHDL"
+       attributes="" />
+  </childGeneratedFiles>
+  <sourceFiles>
+   <file path="/home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate.qsys" />
+  </sourceFiles>
+  <childSourceFiles>
+   <file
+       path="/home/patrick/intelFPGA/23.1std/ip/altera/dsp/altera_CORDIC/source/altera_CORDIC_hw.tcl" />
+  </childSourceFiles>
+  <messages>
+   <message level="Debug" culprit="vector_translate">queue size: 0 starting:vector_translate "vector_translate"</message>
+   <message level="Progress" culprit="min"></message>
+   <message level="Progress" culprit="max"></message>
+   <message level="Progress" culprit="current"></message>
+   <message level="Debug">Transform: CustomInstructionTransform</message>
+   <message level="Debug">No custom instruction connections, skipping transform </message>
+   <message level="Debug" culprit="merlin_custom_instruction_transform"><![CDATA[After transform: <b>1</b> modules, <b>0</b> connections]]></message>
+   <message level="Debug">Transform: MMTransform</message>
+   <message level="Debug">Transform: InterruptMapperTransform</message>
+   <message level="Debug">Transform: InterruptSyncTransform</message>
+   <message level="Debug">Transform: InterruptFanoutTransform</message>
+   <message level="Debug">Transform: AvalonStreamingTransform</message>
+   <message level="Debug">Transform: ResetAdaptation</message>
+   <message level="Debug" culprit="vector_translate"><![CDATA["<b>vector_translate</b>" reuses <b>altera_CORDIC</b> "<b>submodules/vector_translate_CORDIC_0</b>"]]></message>
+   <message level="Debug" culprit="vector_translate">queue size: 0 starting:altera_CORDIC "submodules/vector_translate_CORDIC_0"</message>
+   <message level="Info" culprit="CORDIC_0">/home/patrick/intelFPGA/23.1std/ip/altera/dsp/altera_CORDIC/source//cmdPolyEval.sh /home/patrick/intelFPGA/23.1std/quartus/dspba/backend/linux64 -target ArriaV -frequency 40 -name vector_translate_CORDIC_0 -noChanValid -faithfulRounding -enable -printMachineReadable -lang VHDL -speedgrade 4_H4 FXPVecTranslate 15 0 1 13 0</message>
+   <message level="Info" culprit="CORDIC_0">Latency on Arria V is 2 cycles</message>
+   <message level="Info" culprit="CORDIC_0">DSP Blocks Used: 0</message>
+   <message level="Info" culprit="CORDIC_0">LUTs Used: 1261</message>
+   <message level="Info" culprit="CORDIC_0">Memory Bits Used: 0</message>
+   <message level="Info" culprit="CORDIC_0">Memory Blocks Used: 0</message>
+   <message level="Info" culprit="CORDIC_0"><![CDATA["<b>vector_translate</b>" instantiated <b>altera_CORDIC</b> "<b>CORDIC_0</b>"]]></message>
+  </messages>
+ </entity>
+ <entity
+   path="submodules/"
+   parameterizationKey="altera_CORDIC:23.1:ALL_function=VECTRANSLATE,FUNCTION_FAMILY=ALL,LUTSize=6,RES_DSP_param=0,RES_LUT_param=0,RES_MBIT_param=0,RES_MBLOCK_param=0,SFCompensation=false,derivedfunction=VECTRANSLATE,force_elaborate=0,frequency_feedback=0,frequency_target=40,fxpt_in_2_fraction_derived=0,fxpt_in_2_sign_derived=1,fxpt_in_2_width_derived=32,fxpt_in_fraction=0,fxpt_in_fraction_derived=0,fxpt_in_sign=1,fxpt_in_sign_derived=1,fxpt_in_width=15,fxpt_in_width_derived=32,fxpt_out_2_fraction_derived=0,fxpt_out_2_sign_derived=0,fxpt_out_2_width_derived=16,fxpt_out_fraction=13,fxpt_out_fraction_derived=0,fxpt_out_sign=0,fxpt_out_sign_derived=1,fxpt_out_width=32,fxpt_out_width_derived=16,gen_enable=true,latency_feedback=0,latency_target=0,performance_goal=frequency,report_resources_to_xml=false,selected_device_family=Arria V,selected_device_speedgrade=4_H4,specifyLUTs=false,useLUTs=false,validation_failed=false"
+   instancePathKey="vector_translate:.:CORDIC_0"
+   kind="altera_CORDIC"
+   version="23.1"
+   name="vector_translate_CORDIC_0">
+  <parameter name="gen_enable" value="true" />
+  <parameter name="fxpt_in_sign_derived" value="1" />
+  <parameter name="useLUTs" value="false" />
+  <parameter name="fxpt_out_2_sign_derived" value="0" />
+  <parameter name="fxpt_in_fraction" value="0" />
+  <parameter name="fxpt_out_width" value="32" />
+  <parameter name="selected_device_family" value="Arria V" />
+  <parameter name="fxpt_out_fraction" value="13" />
+  <parameter name="fxpt_in_2_fraction_derived" value="0" />
+  <parameter name="fxpt_in_2_width_derived" value="32" />
+  <parameter name="fxpt_in_2_sign_derived" value="1" />
+  <parameter name="validation_failed" value="false" />
+  <parameter name="ALL_function" value="VECTRANSLATE" />
+  <parameter name="force_elaborate" value="0" />
+  <parameter name="latency_target" value="0" />
+  <parameter name="LUTSize" value="6" />
+  <parameter name="fxpt_out_width_derived" value="16" />
+  <parameter name="fxpt_out_fraction_derived" value="0" />
+  <parameter name="frequency_target" value="40" />
+  <parameter name="fxpt_out_sign" value="0" />
+  <parameter name="SFCompensation" value="false" />
+  <parameter name="fxpt_in_fraction_derived" value="0" />
+  <parameter name="fxpt_in_width" value="15" />
+  <parameter name="fxpt_in_sign" value="1" />
+  <parameter name="fxpt_out_2_fraction_derived" value="0" />
+  <parameter name="selected_device_speedgrade" value="4_H4" />
+  <parameter name="derivedfunction" value="VECTRANSLATE" />
+  <parameter name="fxpt_out_2_width_derived" value="16" />
+  <parameter name="specifyLUTs" value="false" />
+  <parameter name="report_resources_to_xml" value="false" />
+  <parameter name="latency_feedback" value="0" />
+  <parameter name="fxpt_out_sign_derived" value="1" />
+  <parameter name="FUNCTION_FAMILY" value="ALL" />
+  <parameter name="fxpt_in_width_derived" value="32" />
+  <parameter name="performance_goal" value="frequency" />
+  <parameter name="frequency_feedback" value="0" />
+  <generatedFiles>
+   <file
+       path="/home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate/synthesis/submodules/dspba_library_package.vhd"
+       type="VHDL"
+       attributes="" />
+   <file
+       path="/home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate/synthesis/submodules/dspba_library.vhd"
+       type="VHDL"
+       attributes="" />
+   <file
+       path="/home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate/synthesis/submodules/vector_translate_CORDIC_0.vhd"
+       type="VHDL"
+       attributes="" />
+  </generatedFiles>
+  <childGeneratedFiles/>
+  <sourceFiles>
+   <file
+       path="/home/patrick/intelFPGA/23.1std/ip/altera/dsp/altera_CORDIC/source/altera_CORDIC_hw.tcl" />
+  </sourceFiles>
+  <childSourceFiles/>
+  <instantiator instantiator="vector_translate" as="CORDIC_0" />
+  <messages>
+   <message level="Debug" culprit="vector_translate">queue size: 0 starting:altera_CORDIC "submodules/vector_translate_CORDIC_0"</message>
+   <message level="Info" culprit="CORDIC_0">/home/patrick/intelFPGA/23.1std/ip/altera/dsp/altera_CORDIC/source//cmdPolyEval.sh /home/patrick/intelFPGA/23.1std/quartus/dspba/backend/linux64 -target ArriaV -frequency 40 -name vector_translate_CORDIC_0 -noChanValid -faithfulRounding -enable -printMachineReadable -lang VHDL -speedgrade 4_H4 FXPVecTranslate 15 0 1 13 0</message>
+   <message level="Info" culprit="CORDIC_0">Latency on Arria V is 2 cycles</message>
+   <message level="Info" culprit="CORDIC_0">DSP Blocks Used: 0</message>
+   <message level="Info" culprit="CORDIC_0">LUTs Used: 1261</message>
+   <message level="Info" culprit="CORDIC_0">Memory Bits Used: 0</message>
+   <message level="Info" culprit="CORDIC_0">Memory Blocks Used: 0</message>
+   <message level="Info" culprit="CORDIC_0"><![CDATA["<b>vector_translate</b>" instantiated <b>altera_CORDIC</b> "<b>CORDIC_0</b>"]]></message>
+  </messages>
+ </entity>
+</deploy>

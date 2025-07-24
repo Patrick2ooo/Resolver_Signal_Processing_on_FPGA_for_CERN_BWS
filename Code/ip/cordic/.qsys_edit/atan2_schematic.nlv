@@ -1,0 +1,11 @@
+# # File gsaved with Nlview version 6.3.8  2013-12-19 bk=1.2992 VDI=34 GEI=35
+# 
+preplace inst atan2.CORDIC_0 -pg 1 -lvl 1 -y 30
+preplace inst atan2 -pg 1 -lvl 1 -y 40 -regy -20
+preplace netloc EXPORT<net_container>atan2</net_container>(SLAVE)atan2.areset,(SLAVE)CORDIC_0.areset) 1 0 1 NJ
+preplace netloc EXPORT<net_container>atan2</net_container>(SLAVE)atan2.x,(SLAVE)CORDIC_0.x) 1 0 1 NJ
+preplace netloc EXPORT<net_container>atan2</net_container>(SLAVE)atan2.q,(SLAVE)CORDIC_0.q) 1 0 1 NJ
+preplace netloc EXPORT<net_container>atan2</net_container>(SLAVE)atan2.y,(SLAVE)CORDIC_0.y) 1 0 1 NJ
+preplace netloc EXPORT<net_container>atan2</net_container>(SLAVE)atan2.clk,(SLAVE)CORDIC_0.clk) 1 0 1 NJ
+levelinfo -pg 1 0 50 180
+levelinfo -hier atan2 60 90 170

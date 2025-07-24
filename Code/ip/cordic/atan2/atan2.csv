@@ -1,0 +1,20 @@
+# system info atan2 on 2025.07.13.15:44:36
+system_info:
+name,value
+DEVICE,5AGXMB1G4F40C4
+DEVICE_FAMILY,Arria V
+GENERATION_ID,1752414273
+#
+#
+# Files generated for atan2 on 2025.07.13.15:44:36
+files:
+filepath,kind,attributes,module,is_top
+simulation/atan2.vhd,VHDL,,atan2,true
+simulation/submodules/dspba_library_package.vhd,VHDL,,atan2_CORDIC_0,false
+simulation/submodules/dspba_library.vhd,VHDL,,atan2_CORDIC_0,false
+simulation/submodules/atan2_CORDIC_0.vhd,VHDL,,atan2_CORDIC_0,false
+#
+# Map from instance-path to kind of module
+instances:
+instancePath,module
+atan2.CORDIC_0,atan2_CORDIC_0

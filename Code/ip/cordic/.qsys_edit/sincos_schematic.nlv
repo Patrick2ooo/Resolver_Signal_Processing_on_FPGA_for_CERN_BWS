@@ -1,0 +1,11 @@
+# # File gsaved with Nlview version 6.3.8  2013-12-19 bk=1.2992 VDI=34 GEI=35
+# 
+preplace inst sincos -pg 1 -lvl 1 -y 40 -regy -20
+preplace inst sincos.CORDIC_0 -pg 1 -lvl 1 -y 30
+preplace netloc EXPORT<net_container>sincos</net_container>(SLAVE)sincos.clk,(SLAVE)CORDIC_0.clk) 1 0 1 NJ
+preplace netloc EXPORT<net_container>sincos</net_container>(SLAVE)CORDIC_0.c,(SLAVE)sincos.c) 1 0 1 NJ
+preplace netloc EXPORT<net_container>sincos</net_container>(SLAVE)sincos.s,(SLAVE)CORDIC_0.s) 1 0 1 NJ
+preplace netloc EXPORT<net_container>sincos</net_container>(SLAVE)CORDIC_0.a,(SLAVE)sincos.a) 1 0 1 NJ
+preplace netloc EXPORT<net_container>sincos</net_container>(SLAVE)CORDIC_0.areset,(SLAVE)sincos.areset) 1 0 1 NJ
+levelinfo -pg 1 0 50 180
+levelinfo -hier sincos 60 90 170

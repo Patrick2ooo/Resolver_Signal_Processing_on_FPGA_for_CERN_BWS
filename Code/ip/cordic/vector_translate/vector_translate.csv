@@ -1,0 +1,20 @@
+# system info vector_translate on 2025.07.16.16:12:02
+system_info:
+name,value
+DEVICE,5AGXMB1G4F40C4
+DEVICE_FAMILY,Arria V
+GENERATION_ID,1752675119
+#
+#
+# Files generated for vector_translate on 2025.07.16.16:12:02
+files:
+filepath,kind,attributes,module,is_top
+simulation/vector_translate.vhd,VHDL,,vector_translate,true
+simulation/submodules/dspba_library_package.vhd,VHDL,,vector_translate_CORDIC_0,false
+simulation/submodules/dspba_library.vhd,VHDL,,vector_translate_CORDIC_0,false
+simulation/submodules/vector_translate_CORDIC_0.vhd,VHDL,,vector_translate_CORDIC_0,false
+#
+# Map from instance-path to kind of module
+instances:
+instancePath,module
+vector_translate.CORDIC_0,vector_translate_CORDIC_0

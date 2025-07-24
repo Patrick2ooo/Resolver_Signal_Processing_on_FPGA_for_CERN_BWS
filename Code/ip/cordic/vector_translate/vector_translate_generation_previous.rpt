@@ -1,0 +1,76 @@
+Info: Starting: Create simulation model
+Info: qsys-generate /home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate.qsys --simulation=VHDL --allow-mixed-language-simulation --output-directory=/home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate/simulation --family="Arria V" --part=5AGXMB1G4F40C4
+Progress: Loading cordic/vector_translate.qsys
+Progress: Reading input file
+Progress: Adding CORDIC_0 [altera_CORDIC 23.1]
+Progress: Parameterizing module CORDIC_0
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: vector_translate: Generating vector_translate "vector_translate" for SIM_VHDL
+Info: CORDIC_0: /home/patrick/intelFPGA/23.1std/ip/altera/dsp/altera_CORDIC/source//cmdPolyEval.sh /home/patrick/intelFPGA/23.1std/quartus/dspba/backend/linux64 -target ArriaV -frequency 40 -name vector_translate_CORDIC_0 -noChanValid -faithfulRounding -enable -printMachineReadable -lang VHDL -speedgrade 4_H4 FXPVecTranslate 34 0 1 32 0
+Info: CORDIC_0: Latency on Arria V is 6 cycles
+Info: CORDIC_0: DSP Blocks Used: 0
+Info: CORDIC_0: LUTs Used: 5612
+Info: CORDIC_0: Memory Bits Used: 0
+Info: CORDIC_0: Memory Blocks Used: 0
+Info: CORDIC_0: "vector_translate" instantiated altera_CORDIC "CORDIC_0"
+Info: vector_translate: Done "vector_translate" with 2 modules, 4 files
+Info: qsys-generate succeeded.
+Info: Finished: Create simulation model
+Info: Starting: Create Modelsim Project.
+Info: sim-script-gen --spd=/home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate/vector_translate.spd --output-directory=/home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate/simulation/ --use-relative-paths=true
+Info: Doing: ip-make-simscript --spd=/home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate/vector_translate.spd --output-directory=/home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate/simulation/ --use-relative-paths=true
+Info: Generating the following file(s) for VCSMX simulator in /home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate/simulation/ directory:
+Info: 	synopsys/vcsmx/synopsys_sim.setup
+Info: 	synopsys/vcsmx/vcsmx_setup.sh
+Info: Generating the following file(s) for MODELSIM simulator in /home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate/simulation/ directory:
+Info: 	mentor/msim_setup.tcl
+Info: Skipping VCS script generation since VHDL file $QUARTUS_INSTALL_DIR/eda/sim_lib/altera_syn_attributes.vhd is required for simulation
+Info: Generating the following file(s) for RIVIERA simulator in /home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate/simulation/ directory:
+Info: 	aldec/rivierapro_setup.tcl
+Info: Generating the following file(s) for XCELIUM simulator in /home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate/simulation/ directory:
+Info: 	xcelium/cds.lib
+Info: 	xcelium/hdl.var
+Info: 	xcelium/xcelium_setup.sh
+Info: 	1 .cds.lib files in xcelium/cds_libs/ directory
+Info: For information on how to simulate your IP, see the explanatory comments in the simulator-specific subdirectories under /home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate/simulation/.
+Info: Regenerate these scripts whenever you make any change to any Quartus-generated IP in your project.
+Info: Finished: Create Modelsim Project.
+Info: Starting: Create block symbol file (.bsf)
+Info: qsys-generate /home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate.qsys --block-symbol-file --output-directory=/home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate --family="Arria V" --part=5AGXMB1G4F40C4
+Progress: Loading cordic/vector_translate.qsys
+Progress: Reading input file
+Progress: Adding CORDIC_0 [altera_CORDIC 23.1]
+Progress: Parameterizing module CORDIC_0
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: qsys-generate succeeded.
+Info: Finished: Create block symbol file (.bsf)
+Info: 
+Info: Starting: Create HDL design files for synthesis
+Info: qsys-generate /home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate.qsys --synthesis=VHDL --greybox --output-directory=/home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate/synthesis --family="Arria V" --part=5AGXMB1G4F40C4
+Progress: Loading cordic/vector_translate.qsys
+Progress: Reading input file
+Progress: Adding CORDIC_0 [altera_CORDIC 23.1]
+Progress: Parameterizing module CORDIC_0
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: vector_translate: Generating vector_translate "vector_translate" for QUARTUS_SYNTH
+Info: CORDIC_0: /home/patrick/intelFPGA/23.1std/ip/altera/dsp/altera_CORDIC/source//cmdPolyEval.sh /home/patrick/intelFPGA/23.1std/quartus/dspba/backend/linux64 -target ArriaV -frequency 40 -name vector_translate_CORDIC_0 -noChanValid -faithfulRounding -enable -printMachineReadable -lang VHDL -speedgrade 4_H4 FXPVecTranslate 34 0 1 32 0
+Info: CORDIC_0: Latency on Arria V is 6 cycles
+Info: CORDIC_0: DSP Blocks Used: 0
+Info: CORDIC_0: LUTs Used: 5612
+Info: CORDIC_0: Memory Bits Used: 0
+Info: CORDIC_0: Memory Blocks Used: 0
+Info: CORDIC_0: "vector_translate" instantiated altera_CORDIC "CORDIC_0"
+Info: vector_translate: Done "vector_translate" with 2 modules, 4 files
+Info: Generating third-party timing and resource estimation model ...
+Info: Done generating third-party timing and resource estimation model.
+Info: qsys-generate succeeded.
+Info: Finished: Create HDL design files for synthesis
