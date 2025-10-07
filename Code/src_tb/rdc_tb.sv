@@ -63,16 +63,16 @@ module rdc_tb#(int TESTCASE = 0, real ANGLE_DEG_SIM, int ADC_WIDTH = 14, int VEC
     logic [ADC_WIDTH-1:0] offset = 0; // No offset modulation
 
     // CIC parameters
-    parameter int R = 1800;
+    parameter int R = 2000;
     parameter int N = 3;
     parameter int M = 2;
     parameter int R_MAX = 2000;
     logic [15:0] decimation_factor = R;
-    logic [15:0] cic_compensation_factor = 2;
+    logic [15:0] cic_compensation_factor = 1;
     logic valid;
 
     // angle variable
-    logic signed [OUTPUT_WIDTH:0] angle_s;
+    logic signed [OUTPUT_WIDTH-1:0] angle_s;
     real angle_rad;
     logic signed [15:0] rotor_angle_deg;
     logic [31:0] angle_counter;
@@ -230,7 +230,8 @@ module rdc_tb#(int TESTCASE = 0, real ANGLE_DEG_SIM, int ADC_WIDTH = 14, int VEC
         .SINCOS_LATENCY(2),
         .VECTOR_TRANSLATE_LATENCY(2),
         .DIVISION_LATENCY(32),
-        .OUTPUT_WIDTH(OUTPUT_WIDTH+1),
+        .L_TAPS_FIR(31),
+        .OUTPUT_WIDTH(OUTPUT_WIDTH),
         .N(N),
         .M(M),
         .R_MAX(R_MAX),

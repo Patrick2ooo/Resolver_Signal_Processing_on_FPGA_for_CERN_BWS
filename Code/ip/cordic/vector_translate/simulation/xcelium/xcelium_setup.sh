@@ -12,7 +12,7 @@
 # or its authorized distributors. Please refer to the applicable 
 # agreement for further details.
 
-# ACDS 23.1 993 linux 2025.07.16.16:12:03
+# ACDS 23.1 993 linux 2025.08.11.15:26:05
 
 # ----------------------------------------
 # xcelium - auto-generated simulation script
@@ -107,7 +107,7 @@
 # within the Quartus project, and generate a unified
 # script which supports all the Altera IP within the design.
 # ----------------------------------------
-# ACDS 23.1 993 linux 2025.07.16.16:12:03
+# ACDS 23.1 993 linux 2025.08.11.15:26:05
 # ----------------------------------------
 # initialize variables
 TOP_LEVEL_NAME="vector_translate"

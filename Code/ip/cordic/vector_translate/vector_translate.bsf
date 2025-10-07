@@ -88,7 +88,7 @@ https://fpgasoftware.intel.com/eula.
 		(text "x" (rect 53 187 112 384)(font "Arial" (color 0 0 0)))
 		(text "y" (rect 43 203 92 419)(font "Arial" (color 128 0 0)(font_size 9)))
 		(text "y" (rect 53 227 112 464)(font "Arial" (color 0 0 0)))
-		(text " system " (rect 109 248 266 506)(font "Arial" ))
+		(text " vector_translate " (rect 70 248 248 506)(font "Arial" ))
 		(line (pt 48 32)(pt 96 32)(line_width 1))
 		(line (pt 96 32)(pt 96 248)(line_width 1))
 		(line (pt 48 248)(pt 96 248)(line_width 1))

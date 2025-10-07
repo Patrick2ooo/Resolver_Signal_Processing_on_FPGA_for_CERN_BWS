@@ -16,7 +16,7 @@
 -- ---------------------------------------------------------------------------
 
 -- VHDL created from vector_translate_CORDIC_0
--- VHDL created on Wed Jul 16 16:12:02 2025
+-- VHDL created on Mon Aug 11 15:26:04 2025
 
 
 library IEEE;

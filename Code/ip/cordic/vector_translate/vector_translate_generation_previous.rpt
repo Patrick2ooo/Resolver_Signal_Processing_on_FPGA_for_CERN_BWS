@@ -9,10 +9,10 @@ Progress: Parameterizing connections
 Progress: Validating
 Progress: Done reading input file
 Info: vector_translate: Generating vector_translate "vector_translate" for SIM_VHDL
-Info: CORDIC_0: /home/patrick/intelFPGA/23.1std/ip/altera/dsp/altera_CORDIC/source//cmdPolyEval.sh /home/patrick/intelFPGA/23.1std/quartus/dspba/backend/linux64 -target ArriaV -frequency 40 -name vector_translate_CORDIC_0 -noChanValid -faithfulRounding -enable -printMachineReadable -lang VHDL -speedgrade 4_H4 FXPVecTranslate 34 0 1 32 0
-Info: CORDIC_0: Latency on Arria V is 6 cycles
+Info: CORDIC_0: /home/patrick/intelFPGA/23.1std/ip/altera/dsp/altera_CORDIC/source//cmdPolyEval.sh /home/patrick/intelFPGA/23.1std/quartus/dspba/backend/linux64 -target ArriaV -frequency 40 -name vector_translate_CORDIC_0 -noChanValid -faithfulRounding -enable -printMachineReadable -lang VHDL -speedgrade 4_H4 FXPVecTranslate 37 0 1 35 0
+Info: CORDIC_0: Latency on Arria V is 7 cycles
 Info: CORDIC_0: DSP Blocks Used: 0
-Info: CORDIC_0: LUTs Used: 5612
+Info: CORDIC_0: LUTs Used: 6592
 Info: CORDIC_0: Memory Bits Used: 0
 Info: CORDIC_0: Memory Blocks Used: 0
 Info: CORDIC_0: "vector_translate" instantiated altera_CORDIC "CORDIC_0"
@@ -22,14 +22,14 @@ Info: Finished: Create simulation model
 Info: Starting: Create Modelsim Project.
 Info: sim-script-gen --spd=/home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate/vector_translate.spd --output-directory=/home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate/simulation/ --use-relative-paths=true
 Info: Doing: ip-make-simscript --spd=/home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate/vector_translate.spd --output-directory=/home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate/simulation/ --use-relative-paths=true
+Info: Generating the following file(s) for MODELSIM simulator in /home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate/simulation/ directory:
+Info: 	mentor/msim_setup.tcl
+Info: Generating the following file(s) for RIVIERA simulator in /home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate/simulation/ directory:
+Info: 	aldec/rivierapro_setup.tcl
+Info: Skipping VCS script generation since VHDL file $QUARTUS_INSTALL_DIR/eda/sim_lib/altera_syn_attributes.vhd is required for simulation
 Info: Generating the following file(s) for VCSMX simulator in /home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate/simulation/ directory:
 Info: 	synopsys/vcsmx/synopsys_sim.setup
 Info: 	synopsys/vcsmx/vcsmx_setup.sh
-Info: Generating the following file(s) for MODELSIM simulator in /home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate/simulation/ directory:
-Info: 	mentor/msim_setup.tcl
-Info: Skipping VCS script generation since VHDL file $QUARTUS_INSTALL_DIR/eda/sim_lib/altera_syn_attributes.vhd is required for simulation
-Info: Generating the following file(s) for RIVIERA simulator in /home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate/simulation/ directory:
-Info: 	aldec/rivierapro_setup.tcl
 Info: Generating the following file(s) for XCELIUM simulator in /home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate/simulation/ directory:
 Info: 	xcelium/cds.lib
 Info: 	xcelium/hdl.var
@@ -62,10 +62,10 @@ Progress: Parameterizing connections
 Progress: Validating
 Progress: Done reading input file
 Info: vector_translate: Generating vector_translate "vector_translate" for QUARTUS_SYNTH
-Info: CORDIC_0: /home/patrick/intelFPGA/23.1std/ip/altera/dsp/altera_CORDIC/source//cmdPolyEval.sh /home/patrick/intelFPGA/23.1std/quartus/dspba/backend/linux64 -target ArriaV -frequency 40 -name vector_translate_CORDIC_0 -noChanValid -faithfulRounding -enable -printMachineReadable -lang VHDL -speedgrade 4_H4 FXPVecTranslate 34 0 1 32 0
-Info: CORDIC_0: Latency on Arria V is 6 cycles
+Info: CORDIC_0: /home/patrick/intelFPGA/23.1std/ip/altera/dsp/altera_CORDIC/source//cmdPolyEval.sh /home/patrick/intelFPGA/23.1std/quartus/dspba/backend/linux64 -target ArriaV -frequency 40 -name vector_translate_CORDIC_0 -noChanValid -faithfulRounding -enable -printMachineReadable -lang VHDL -speedgrade 4_H4 FXPVecTranslate 37 0 1 35 0
+Info: CORDIC_0: Latency on Arria V is 7 cycles
 Info: CORDIC_0: DSP Blocks Used: 0
-Info: CORDIC_0: LUTs Used: 5612
+Info: CORDIC_0: LUTs Used: 6592
 Info: CORDIC_0: Memory Bits Used: 0
 Info: CORDIC_0: Memory Blocks Used: 0
 Info: CORDIC_0: "vector_translate" instantiated altera_CORDIC "CORDIC_0"

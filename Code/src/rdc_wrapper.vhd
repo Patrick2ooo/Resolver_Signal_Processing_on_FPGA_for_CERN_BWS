@@ -30,12 +30,15 @@ entity rdc_wrapper is
         SINCOS_LATENCY           : integer := 2;
         VECTOR_TRANSLATE_LATENCY : integer := 2;
         DIVISION_LATENCY         : integer := 32;
+        L_TAPS_FIR               : integer := 31;
         OUTPUT_WIDTH             : integer := 17;
         R_MAX                    : integer := 1000;
         N                        : integer := 3;
         M                        : integer := 3;
         ADDR_WIDTH               : integer := 8;
         DATA_WIDTH               : integer := 32
+        /*COEFF_ADDR_WIDTH         : integer := 9;
+        COEFF_DATA_WIDTH         : integer := 16*/
     );
     port (
         clk_i   : in  std_logic;
@@ -59,6 +62,13 @@ entity rdc_wrapper is
         reg_data_o                  : out std_logic_vector(DATA_WIDTH-1 downto 0);
         sinus_generator_o           : out std_logic_vector(NCO_RESOLUTION-1 downto 0);
         sinus_generator_valid_o     : out std_logic
+
+        /*coeff_in_address_i          : in  std_logic_vector(COEFF_ADDR_WIDTH-1 downto 0);
+        coeff_in_read_i             : in  std_logic;
+        coeff_out_valid_o           : out std_logic;
+        coeff_out_data_o            : out std_logic_vector(COEFF_DATA_WIDTH-1 downto 0);
+        coeff_in_we_i               : in  std_logic;
+        coeff_in_data_i             : in  std_logic_vector(COEFF_DATA_WIDTH-1 downto 0)*/
     );
 end entity;
 
@@ -88,6 +98,8 @@ architecture rtl of rdc_wrapper is
     signal reg_data_int              : std_logic_vector(DATA_WIDTH-1 downto 0);
     signal sinus_gen_int             : std_logic_vector(NCO_RESOLUTION-1 downto 0);
     signal sinus_gen_valid_int       : std_logic;
+    /*signal coeff_out_valid_int       : std_logic;
+    signal coeff_out_data_int        : std_logic_vector(COEFF_DATA_WIDTH-1 downto 0);*/
 
     --================================================--
 	     -- Output registers --
@@ -98,6 +110,16 @@ architecture rtl of rdc_wrapper is
     signal reg_data_out_r          : std_logic_vector(DATA_WIDTH-1 downto 0);
     signal sinus_gen_r             : std_logic_vector(NCO_RESOLUTION-1 downto 0);
     signal sinus_gen_valid_r       : std_logic;
+
+    --==================================================
+	     -- FIR signals --
+	--==================================================
+    /*signal coeff_in_address_r     : std_logic_vector(COEFF_ADDR_WIDTH-1 downto 0);
+    signal coeff_in_read_r        : std_logic;
+    signal coeff_out_valid_r      : std_logic;
+    signal coeff_out_data_r       : std_logic_vector(COEFF_DATA_WIDTH-1 downto 0);
+    signal coeff_in_we_r          : std_logic;
+    signal coeff_in_data_r        : std_logic_vector(COEFF_DATA_WIDTH-1 downto 0);*/
 
 begin
 
@@ -118,6 +140,10 @@ begin
                 reg_data_r                <= (others => '0');
                 reg_write_r               <= '0';
                 reg_read_r                <= '0';
+                /*coeff_in_address_r     <= (others => '0');
+                coeff_in_read_r        <= '0';
+                coeff_in_we_r          <= '0';
+                coeff_in_data_r        <= (others => '0');*/
             else
                 offset_modulated_signal_r <= offset_modulated_signal_i;
                 cic_comp_factor_r         <= cic_compensation_factor_i;
@@ -129,6 +155,10 @@ begin
                 reg_data_r                <= reg_data_i;
                 reg_write_r               <= reg_write_i;
                 reg_read_r                <= reg_read_i;
+                /*coeff_in_address_r        <= coeff_in_address_i;
+                coeff_in_read_r           <= coeff_in_read_i;
+                coeff_in_we_r             <= coeff_in_we_i;
+                coeff_in_data_r           <= coeff_in_data_i;*/
             end if;
         end if;
     end process;
@@ -148,13 +178,16 @@ begin
             ATAN2_LATENCY            => ATAN2_LATENCY,
             SINCOS_LATENCY           => SINCOS_LATENCY,
             VECTOR_TRANSLATE_LATENCY => VECTOR_TRANSLATE_LATENCY,
-            DIVISION_LATENCY        => DIVISION_LATENCY,
+            DIVISION_LATENCY         => DIVISION_LATENCY,
+            L_TAPS_FIR               => L_TAPS_FIR,
             OUTPUT_WIDTH             => OUTPUT_WIDTH,
             R_MAX                    => R_MAX,
             N                        => N,
             M                        => M,
             ADDR_WIDTH               => ADDR_WIDTH,
             DATA_WIDTH               => DATA_WIDTH
+            /*COEFF_ADDR_WIDTH         => COEFF_ADDR_WIDTH,
+            COEFF_DATA_WIDTH         => COEFF_DATA_WIDTH*/
         )
         port map (
             clk_i                     => clk_i,
@@ -179,6 +212,14 @@ begin
 
             sinus_generator_o       => sinus_gen_int,
             sinus_generator_valid_o => sinus_gen_valid_int
+
+            /*coeff_in_address_i      => coeff_in_address_r,
+            coeff_in_read_i         => coeff_in_read_r,
+            coeff_out_valid_o       => coeff_out_valid_int,
+            coeff_out_data_o        => coeff_out_data_int,
+            coeff_in_we_i          => coeff_in_we_r,
+            coeff_in_data_i        => coeff_in_data_r*/
+            
         );
 
     --================================================--
@@ -194,6 +235,8 @@ begin
                 reg_data_out_r    <= (others => '0');
                 sinus_gen_r       <= (others => '0');
                 sinus_gen_valid_r <= '0';
+                /*coeff_out_valid_r <= '0';
+                coeff_out_data_r  <= (others => '0');*/
             else
                 angle_r           <= angle_int;
                 error_r           <= error_int;
@@ -201,6 +244,8 @@ begin
                 reg_data_out_r    <= reg_data_int;
                 sinus_gen_r       <= sinus_gen_int;
                 sinus_gen_valid_r <= sinus_gen_valid_int;
+                /*coeff_out_valid_r <= coeff_out_valid_int;
+                coeff_out_data_r  <= coeff_out_data_int;*/
             end if;
         end if;
     end process;

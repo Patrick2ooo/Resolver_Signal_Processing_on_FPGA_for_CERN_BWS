@@ -22,19 +22,19 @@ Info: Finished: Create simulation model
 Info: Starting: Create Modelsim Project.
 Info: sim-script-gen --spd=/home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate/vector_translate.spd --output-directory=/home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate/simulation/ --use-relative-paths=true
 Info: Doing: ip-make-simscript --spd=/home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate/vector_translate.spd --output-directory=/home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate/simulation/ --use-relative-paths=true
-Info: Generating the following file(s) for RIVIERA simulator in /home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate/simulation/ directory:
-Info: 	aldec/rivierapro_setup.tcl
+Info: Skipping VCS script generation since VHDL file $QUARTUS_INSTALL_DIR/eda/sim_lib/altera_syn_attributes.vhd is required for simulation
+Info: Generating the following file(s) for VCSMX simulator in /home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate/simulation/ directory:
+Info: 	synopsys/vcsmx/synopsys_sim.setup
+Info: 	synopsys/vcsmx/vcsmx_setup.sh
+Info: Generating the following file(s) for MODELSIM simulator in /home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate/simulation/ directory:
+Info: 	mentor/msim_setup.tcl
 Info: Generating the following file(s) for XCELIUM simulator in /home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate/simulation/ directory:
 Info: 	xcelium/cds.lib
 Info: 	xcelium/hdl.var
 Info: 	xcelium/xcelium_setup.sh
 Info: 	1 .cds.lib files in xcelium/cds_libs/ directory
-Info: Generating the following file(s) for MODELSIM simulator in /home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate/simulation/ directory:
-Info: 	mentor/msim_setup.tcl
-Info: Generating the following file(s) for VCSMX simulator in /home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate/simulation/ directory:
-Info: 	synopsys/vcsmx/synopsys_sim.setup
-Info: 	synopsys/vcsmx/vcsmx_setup.sh
-Info: Skipping VCS script generation since VHDL file $QUARTUS_INSTALL_DIR/eda/sim_lib/altera_syn_attributes.vhd is required for simulation
+Info: Generating the following file(s) for RIVIERA simulator in /home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate/simulation/ directory:
+Info: 	aldec/rivierapro_setup.tcl
 Info: For information on how to simulate your IP, see the explanatory comments in the simulator-specific subdirectories under /home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate/simulation/.
 Info: Regenerate these scripts whenever you make any change to any Quartus-generated IP in your project.
 Info: Finished: Create Modelsim Project.

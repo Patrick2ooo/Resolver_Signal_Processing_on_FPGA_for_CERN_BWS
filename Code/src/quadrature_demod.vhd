@@ -28,10 +28,14 @@ entity quadrature_demod is
 
         VECTOR_TRANSLATE_LATENCY    : integer := 2;   -- Latency of the vector translate component
         DIVISION_LATENCY            : integer := 32;  -- Latency of the division component
+        L_TAPS_FIR                  : integer := 31;  -- Number of taps in the FIR filter
 
         R_MAX   : integer := 1000;   -- Maximum decimation factor for the CIC filter
         N       : integer := 3;      -- Number of stages in the CIC filter
-        M       : integer := 3       -- Number of integrators in the CIC filter
+        M       : integer := 2       -- Number of integrators in the CIC filter
+
+        /*COEFF_ADDR_WIDTH : integer := 9;               -- Width of the coefficient address bus
+        COEFF_DATA_WIDTH : integer := 16               -- Width of the coefficient data bus*/
     );
     port (
         clk_i                       : in  std_logic;                                                    -- System clock
@@ -43,6 +47,13 @@ entity quadrature_demod is
         modulated_signal_i          : in  std_logic_vector(ADC_RESOLUTION-1 downto 0);                  -- Input signal to be demodulated
         demodulated_signal_o        : out std_logic_vector(VECTOR_TRANSLATE_RESOLUTION-1 downto 0);     -- Demodulated output signal
         valid_o                     : out std_logic                                                     -- Valid signal for the output
+
+        /*coeff_in_address_i          : in  std_logic_vector(COEFF_ADDR_WIDTH-1 downto 0);                 -- Address input for the coefficient memory
+        coeff_in_read_i             : in  std_logic ;                                                    -- Read enable for the coefficient memory
+        coeff_out_valid_o           : out std_logic ;                                                    -- Valid signal for the coefficient output
+        coeff_out_data_o            : out std_logic_vector(COEFF_DATA_WIDTH-1 downto 0);                 -- Data output for the coefficient memory
+        coeff_in_we_i               : in  std_logic;                                                     -- Write enable for the coefficient memory
+        coeff_in_data_i             : in  std_logic_vector(COEFF_DATA_WIDTH-1 downto 0)                  -- Data input for the coefficient memory*/
     );
 end entity quadrature_demod;
 
@@ -81,18 +92,26 @@ architecture behave of quadrature_demod is
     --================================================--
          -- FIR Compensator --
     --================================================--
-    --component fir is
-	--	port (
-	--		clk              : in  std_logic                     := 'X';             -- clk
-	--		reset_n          : in  std_logic                     := 'X';             -- reset_n
-	--		ast_sink_data    : in  std_logic_vector(20 downto 0) := (others => 'X'); -- data
-	--		ast_sink_valid   : in  std_logic                     := 'X';             -- valid
-	--		ast_sink_error   : in  std_logic_vector(1 downto 0)  := (others => 'X'); -- error
-	--		ast_source_data  : out std_logic_vector(33 downto 0);                    -- data
-	--		ast_source_valid : out std_logic;                                        -- valid
-	--		ast_source_error : out std_logic_vector(1 downto 0)                      -- error
-	--	);
-	--end component fir;
+    component fir is
+		port (
+			clk              : in  std_logic                     := 'X';             -- clk
+			reset_n          : in  std_logic                     := 'X';             -- reset_n
+			ast_sink_data    : in  std_logic_vector(14 downto 0) := (others => 'X'); -- data
+			ast_sink_valid   : in  std_logic                     := 'X';             -- valid
+			ast_sink_error   : in  std_logic_vector(1 downto 0)  := (others => 'X'); -- error
+			ast_source_data  : out std_logic_vector(14 downto 0);                    -- data
+			ast_source_valid : out std_logic;                                        -- valid
+			ast_source_error : out std_logic_vector(1 downto 0)                     -- error
+			/*coeff_in_clk     : in  std_logic                     := 'X';             -- clk
+			coeff_in_areset  : in  std_logic                     := 'X';             -- reset_n
+			coeff_in_address : in  std_logic_vector(COEFF_ADDR_WIDTH-1 downto 0)  := (others => 'X'); -- address
+			coeff_in_read    : in  std_logic                     := 'X';             -- read
+			coeff_out_valid  : out std_logic_vector(0 downto 0);                     -- readdatavalid
+			coeff_out_data   : out std_logic_vector(COEFF_DATA_WIDTH-1 downto 0);                    -- readdata
+			coeff_in_we      : in  std_logic_vector(0 downto 0)  := (others => 'X'); -- write
+			coeff_in_data    : in  std_logic_vector(COEFF_DATA_WIDTH-1 downto 0) := (others => 'X')  -- writedata*/
+		);
+	end component fir;
 
     --================================================--
 	     -- Constant --
@@ -133,16 +152,18 @@ architecture behave of quadrature_demod is
 
     -- Signals for the delay line
     signal sign_delayed_s           : std_logic;
-    signal sign_delay_pipeline      : std_logic_vector(VECTOR_TRANSLATE_LATENCY-1 downto 0) := (others => '0');
-    signal valid_delay_pipeline     : std_logic_vector(VECTOR_TRANSLATE_LATENCY-1 downto 0) := (others => '0');
+    signal sign_delay_pipeline      : std_logic_vector(VECTOR_TRANSLATE_LATENCY-1 + L_TAPS_FIR downto 0) := (others => '0');
 
     -- Signals for the CORDIC component
     signal amplitude_corrected_s    : std_logic_vector(VECTOR_TRANSLATE_RESOLUTION-1 downto 0);
-    signal cordic_enable_pipeline   : std_logic_vector(VECTOR_TRANSLATE_LATENCY-1 downto 0) := (others => '0');
+    signal cordic_enable_pipeline   : std_logic_vector(VECTOR_TRANSLATE_LATENCY + L_TAPS_FIR -1 downto 0) := (others => '0');
     signal cordic_valid_internal    : std_logic := '0';
     signal corrected_valid          : std_logic := '0';
 
     signal valid_component_s : std_logic := '0';
+
+    signal bank_sel_i : std_logic_vector(5 downto 0) := (others => '0');
+    signal bank_sel_q : std_logic_vector(5 downto 0) := (others => '0');
 
 begin
 
@@ -173,19 +194,27 @@ begin
     );
 
     --================================================--
-         -- FIR compensator to correct the amplitude of the demodulated signal, not working yet
+         -- FIR compensator to correct the amplitude of the demodulated signal
     --================================================--
-    --fir_compensator_i_inst: fir
-    --port map (
-    --        clk              => clk_i,
-    --        reset_n          => not reset_i,
-    --        ast_sink_data    => std_logic_vector(resize(cic_i_output, 21)),
-    --        ast_sink_valid   => cic_valid_i_s,
-    --        ast_sink_error   => (others => '0'),
-    --        ast_source_data  => fir_i_output,
-    --        ast_source_valid => fir_i_valid,
-    --        ast_source_error => open
-    --);
+    fir_compensator_i_inst: fir
+    port map (
+            clk              => clk_i,
+            reset_n          => not reset_i,
+            ast_sink_data    => /*bank_sel_i & */std_logic_vector(cic_i_output),
+            ast_sink_valid   => cic_valid_i_s,
+            ast_sink_error   => (others => '0'),
+            ast_source_data  => fir_i_output,
+            ast_source_valid => fir_i_valid,
+            ast_source_error => open
+            /*coeff_in_clk     => clk_i,
+            coeff_in_areset  => not reset_i,
+            coeff_in_address => coeff_in_address_i,
+            coeff_in_read    => coeff_in_read_i,
+            coeff_out_valid(0)  => coeff_out_valid_o,
+            coeff_out_data   => coeff_out_data_o,
+            coeff_in_we(0)      => coeff_in_we_i,
+            coeff_in_data    => coeff_in_data_i*/
+    );
 
     --================================================--
          -- Instantiate the CIC filter, Q component--
@@ -211,19 +240,27 @@ begin
     );
 
     --================================================--
-         -- FIR compensator to correct the amplitude of the demodulated signal, not working yet
+         -- FIR compensator to correct the amplitude of the demodulated signal
     --================================================--
-    --fir_compensator_q_inst: fir
-    --port map (
-    --        clk              => clk_i,
-    --        reset_n          => not reset_i,
-    --        ast_sink_data    => std_logic_vector(resize(cic_q_output, 21)),
-    --        ast_sink_valid   => cic_valid_q_s,
-    --        ast_sink_error   => (others => '0'),
-    --        ast_source_data  => fir_q_output,
-    --        ast_source_valid => fir_q_valid,
-    --        ast_source_error => open
-    --);
+    fir_compensator_q_inst: fir
+    port map (
+            clk              => clk_i,
+            reset_n          => not reset_i,
+            ast_sink_data    => /*bank_sel_q & */std_logic_vector(cic_q_output),
+            ast_sink_valid   => cic_valid_q_s,
+            ast_sink_error   => (others => '0'),
+            ast_source_data  => fir_q_output,
+            ast_source_valid => fir_q_valid,
+            ast_source_error => open
+            /*coeff_in_clk     => clk_i,
+            coeff_in_areset  => not reset_i,
+            coeff_in_address => coeff_in_address_i,
+            coeff_in_read    => coeff_in_read_i,
+            coeff_out_valid(0)  => coeff_out_valid_o,
+            coeff_out_data   => coeff_out_data_o,
+            coeff_in_we(0)      => coeff_in_we_i,
+            coeff_in_data    => coeff_in_data_i*/
+    );
 
     -- convert the CIC outputs to std_logic_vector
     filtered_i_s <= std_logic_vector(cic_i_output);
@@ -236,10 +273,10 @@ begin
         port map (
             areset => reset_i,
             clk    => clk_i,
-            en(0)  => cic_valid_i_s and cic_valid_q_s,
+            en(0)  => fir_i_valid and fir_q_valid,
             q      => open,
-            x      => filtered_i_s,
-            y      => filtered_q_s,
+            x      => fir_i_output,
+            y      => fir_q_output,
             r      => amplitude_s
     );
 
@@ -276,11 +313,11 @@ begin
                 if nco_valid_s = '1' then
                     -- the input osccillation need to oscillate around 0, before multiplying with the NCO outputs
                     corrected_modulated_signal_s <= std_logic_vector(signed(modulated_signal_i) - signed(offset_modulated_signal_i));
-                    
+
                     -- Multiply input signal with NCO outputs
                     i_component_s <= std_logic_vector(shift_right(signed(corrected_modulated_signal_s) * signed(nco_cosine_s), NCO_RESOLUTION-1)(IQ_RESOLUTION-1 downto 0));
                     q_component_s <= std_logic_vector(shift_right(signed(corrected_modulated_signal_s) * signed(nco_sine_s), NCO_RESOLUTION-1)(IQ_RESOLUTION-1 downto 0));
-                
+
                     -- propagate the valid signal
                     valid_component_s <= nco_valid_s;
                 end if;
@@ -316,11 +353,11 @@ begin
                 cordic_enable_pipeline <= (others => '0');
                 cordic_valid_internal <= '0';
             else
-                cordic_enable_pipeline <= cordic_enable_pipeline(VECTOR_TRANSLATE_LATENCY-2 downto 0) & (cic_valid_q_s and cic_valid_i_s);
-                cordic_valid_internal <= cordic_enable_pipeline(VECTOR_TRANSLATE_LATENCY-1);
+                cordic_enable_pipeline <= cordic_enable_pipeline(VECTOR_TRANSLATE_LATENCY-2 + L_TAPS_FIR downto 0) & (fir_q_valid and fir_i_valid);
+                cordic_valid_internal <= cordic_enable_pipeline(VECTOR_TRANSLATE_LATENCY-1 + L_TAPS_FIR);
 
-                if cic_valid_q_s = '1' then
-                    sign_delay_pipeline <= sign_delay_pipeline(VECTOR_TRANSLATE_LATENCY-2 downto 0) & filtered_q_s(filtered_q_s'left);
+                if fir_q_valid = '1' then
+                    sign_delay_pipeline <= sign_delay_pipeline(VECTOR_TRANSLATE_LATENCY-2 + L_TAPS_FIR downto 0) & fir_q_output(fir_q_output'left);
                 end if;
             end if;
         end if;

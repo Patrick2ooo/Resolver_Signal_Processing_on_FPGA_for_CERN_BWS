@@ -33,6 +33,7 @@ entity rdc_top is
         SINCOS_LATENCY : integer := 2;                  -- Latency of the sincos component
         VECTOR_TRANSLATE_LATENCY : integer := 2;        -- Latency of the vector translate component
         DIVISION_LATENCY : integer := 32;               -- Latency of the division component
+        L_TAPS_FIR : integer := 31;                     -- Number of taps in the FIR filter
 
         OUTPUT_WIDTH : integer := 17;                   -- Width of the output signal
 
@@ -42,6 +43,9 @@ entity rdc_top is
 
         ADDR_WIDTH : integer := 8;              -- Width of the address bus
         DATA_WIDTH : integer := 32              -- Width of the data bus
+
+        /*COEFF_ADDR_WIDTH : integer := 16;               -- Width of the coefficient address bus
+        COEFF_DATA_WIDTH : integer := 16                -- Width of the coefficient data bus*/
     );
     port (
         clk_i                       : in  std_logic;                                    -- System clock
@@ -65,6 +69,14 @@ entity rdc_top is
 
         sinus_generator_o : out std_logic_vector(NCO_RESOLUTION-1 downto 0);        -- Output sinusoidal signal from the sinus generator
         sinus_generator_valid_o : out std_logic                                    -- Valid output signal from the sinus generator
+
+        -- Coefficient memory interface for fir compensation filter
+        /*coeff_in_address_i          : in  std_logic_vector(COEFF_ADDR_WIDTH-1 downto 0);                 -- Address input for the coefficient memory
+        coeff_in_read_i             : in  std_logic ;                                                    -- Read enable for the coefficient memory
+        coeff_out_valid_o           : out std_logic ;                                                   -- Valid signal for the coefficient output
+        coeff_out_data_o            : out std_logic_vector(COEFF_DATA_WIDTH-1 downto 0);                 -- Data output for the coefficient memory
+        coeff_in_we_i               : in  std_logic;                                                       -- Write enable for the coefficient memory
+        coeff_in_data_i             : in  std_logic_vector(COEFF_DATA_WIDTH-1 downto 0)                   -- Data input for the coefficient memory*/
     );
 end entity rdc_top;
 
@@ -96,9 +108,11 @@ architecture behave of rdc_top is
     constant ADDR_ERROR_ENABLE_MASK     : natural := 16#06#;
     constant ADDR_ERROR_CLEAR           : natural := 16#07#;
 
-    constant PI     : signed(ATAN2_RESOLUTION-1 downto 0) := x"6488"; -- PI value for 16 bit with 13 fractional bits
-    constant TWO_PI : signed(ATAN2_RESOLUTION downto 0) := '0' & x"C910"; -- 2*PI value for 16 bit with 13 fractional bits
-    
+    constant PI     : unsigned(ATAN2_RESOLUTION-1 downto 0) := x"6488"; -- PI value for 16 bit with 13 fractional bits
+    constant TWO_PI : unsigned(ATAN2_RESOLUTION-1 downto 0) := x"C910"; -- 2*PI value for 16 bit with 13 fractional bits
+    constant PI32   : unsigned(31 downto 0) := resize(PI, 32);
+    constant TWO_PI32 : unsigned(31 downto 0) := resize(TWO_PI, 32);
+
     constant WINDOW_SAMPLES_PERIOD     : real := 62.5e-6;  -- 62.5 µs, value based on AD2S1210 datasheet for excitation frequency between 8kHz and 20kHz
     constant WINDOW_SAMPLES            : integer := integer(real(CLK_FREQUENCY) * WINDOW_SAMPLES_PERIOD);
 
@@ -137,6 +151,15 @@ architecture behave of rdc_top is
 
     -- valid output signal
     signal final_valid_s : std_logic := '0';
+
+    signal angle_extended_s        : signed(31 downto 0);
+    signal angle_extended_prev_s   : signed(31 downto 0);
+    signal diff_s                  : signed(31 downto 0);
+    signal offset_stage_s          : signed(OUTPUT_WIDTH-1 downto 0);
+
+    -- Register for demod outputs (improves CORDIC input timing)
+    signal demodulated_sin_reg : std_logic_vector(VECTOR_TRANSLATE_RESOLUTION-1 downto 0);
+    signal demodulated_cos_reg : std_logic_vector(VECTOR_TRANSLATE_RESOLUTION-1 downto 0);
 begin
 
     --================================================--
@@ -210,10 +233,14 @@ begin
 
             VECTOR_TRANSLATE_LATENCY => VECTOR_TRANSLATE_LATENCY,
             DIVISION_LATENCY => DIVISION_LATENCY,
+            L_TAPS_FIR => L_TAPS_FIR,
 
             R_MAX => R_MAX,
             N => N,
             M => M
+
+            /*COEFF_ADDR_WIDTH => COEFF_ADDR_WIDTH,
+            COEFF_DATA_WIDTH => COEFF_DATA_WIDTH*/
         )
         port map (
             clk_i => clk_i,
@@ -225,6 +252,12 @@ begin
             modulated_signal_i => sin_signal_i,
             demodulated_signal_o => demodulated_sin_signal_s,
             valid_o => sin_valid_s
+            /*coeff_in_address_i => coeff_in_address_i,
+            coeff_in_read_i => coeff_in_read_i,
+            coeff_out_valid_o => coeff_out_valid_o,
+            coeff_out_data_o => coeff_out_data_o,
+            coeff_in_we_i => coeff_in_we_i,
+            coeff_in_data_i => coeff_in_data_i*/
         );
 
     --===================================================================--
@@ -239,10 +272,14 @@ begin
 
             VECTOR_TRANSLATE_LATENCY => VECTOR_TRANSLATE_LATENCY,
             DIVISION_LATENCY => DIVISION_LATENCY,
+            L_TAPS_FIR => L_TAPS_FIR,
 
             R_MAX => R_MAX,
             N => N,
             M => M
+
+            /*COEFF_ADDR_WIDTH => COEFF_ADDR_WIDTH,
+            COEFF_DATA_WIDTH => COEFF_DATA_WIDTH*/
         )
         port map (
             clk_i => clk_i,
@@ -254,7 +291,30 @@ begin
             modulated_signal_i => cos_signal_i,
             demodulated_signal_o => demodulated_cos_signal_s,
             valid_o => cos_valid_s
+            /*coeff_in_address_i => coeff_in_address_i,
+            coeff_in_read_i => coeff_in_read_i,
+            coeff_out_valid_o => coeff_out_valid_o,
+            coeff_out_data_o => coeff_out_data_o,
+            coeff_in_we_i => coeff_in_we_i,
+            coeff_in_data_i => coeff_in_data_i*/
         );
+
+    --===================================================================--
+            -- Pipeline for the CORDIC, Atan2--
+    --===================================================================--
+
+    process(clk_i)
+    begin
+        if rising_edge(clk_i) then
+            if reset_i='1' then
+                demodulated_sin_reg <= (others=>'0');
+                demodulated_cos_reg <= (others=>'0');
+            elsif sin_valid_s='1' and cos_valid_s='1' then
+                demodulated_sin_reg <= demodulated_sin_signal_s;
+                demodulated_cos_reg <= demodulated_cos_signal_s;
+            end if;
+        end if;
+    end process;
 
     --===================================================================--
             -- Instantiate the CORDIC, Atan2--
@@ -264,8 +324,8 @@ begin
             clk    => clk_i,
             areset => reset_i,
             en(0)  => sin_valid_s and cos_valid_s,
-            x      => demodulated_cos_signal_s,
-            y      => demodulated_sin_signal_s,
+            x      => demodulated_cos_reg,
+            y      => demodulated_sin_reg,
             q      => angle_s
         );
 
@@ -323,26 +383,34 @@ begin
     -- Make the angle goes from 0 to 2*PI, be careful this code doesnt work if we stop the continuous sampling and restart it without reseting the system, it will not work as expected.
     -- got from there https://www.reddit.com/r/DSP/comments/15cmxqv/phase_unwrapping_on_fpga/
     process (clk_i)
-        variable diff : signed(OUTPUT_WIDTH-1 downto 0);
+        variable diff : signed(31 downto 0);
         variable offset : signed(OUTPUT_WIDTH-1 downto 0);
+        variable angle_extended : signed(31 downto 0);
+        variable angle_extended_prev : signed(31 downto 0);
+        variable angle_resized : signed(OUTPUT_WIDTH-1 downto 0);
     begin
         if rising_edge(clk_i) then
             if reset_i = '1' then
                 prev_angle_s <= (others => '0');
                 corrected_angle_s <= (others => '0');
                 final_valid_s <= '0';
-            else
-                diff := resize(signed(angle_s), OUTPUT_WIDTH) - prev_angle_s;
-                if diff > PI then
-                    offset := -TWO_PI;
-                elsif diff < -PI then
-                    offset := TWO_PI;
+            elsif atan2_valid = '1' then
+                angle_extended := resize(signed(angle_s), 32);
+                angle_extended_prev := resize(signed(prev_angle_s), 32);
+                diff := angle_extended - angle_extended_prev;
+                if diff > signed(PI32) then
+                    offset := -resize(signed(TWO_PI), OUTPUT_WIDTH);
+                elsif diff < -signed(PI32) then
+                    offset := resize(signed(TWO_PI), OUTPUT_WIDTH);
                 else
                     offset := (others => '0');
                 end if;
-                corrected_angle_s <= signed(angle_s) + offset;
-                prev_angle_s <= signed(angle_s) + offset;
-                final_valid_s <= atan2_valid;
+                angle_resized := resize(signed(angle_s), OUTPUT_WIDTH);
+                corrected_angle_s <= angle_resized + offset;
+                prev_angle_s <= angle_resized + offset;
+                final_valid_s <= '1';
+            else
+                final_valid_s <= '0';
             end if;
         end if;
     end process;
@@ -368,5 +436,5 @@ begin
     valid_o <= final_valid_s;
     angle_o <= std_logic_vector(corrected_angle_s); -- Note: atan2 defines the output as a 16bit value with 13 fractional bits
     error_o <= error_s;
-    
+
 end architecture behave;

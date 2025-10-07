@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <deploy
- date="2025.07.16.16:12:07"
+ date="2025.08.11.15:26:09"
  outputDirectory="/home/patrick/HEIG-VD/TB/Code/ip/cordic/vector_translate/">
  <perimeter>
   <parameter
@@ -90,13 +90,13 @@
  </perimeter>
  <entity
    path=""
-   parameterizationKey="vector_translate:1.0:AUTO_CLK_CLOCK_DOMAIN=-1,AUTO_CLK_CLOCK_RATE=-1,AUTO_CLK_RESET_DOMAIN=-1,AUTO_DEVICE=5AGXMB1G4F40C4,AUTO_DEVICE_FAMILY=Arria V,AUTO_DEVICE_SPEEDGRADE=4_H4,AUTO_GENERATION_ID=1752675124,AUTO_UNIQUE_ID=(altera_CORDIC:23.1:ALL_function=VECTRANSLATE,FUNCTION_FAMILY=ALL,LUTSize=6,RES_DSP_param=0,RES_LUT_param=0,RES_MBIT_param=0,RES_MBLOCK_param=0,SFCompensation=false,derivedfunction=VECTRANSLATE,force_elaborate=0,frequency_feedback=0,frequency_target=40,fxpt_in_2_fraction_derived=0,fxpt_in_2_sign_derived=1,fxpt_in_2_width_derived=32,fxpt_in_fraction=0,fxpt_in_fraction_derived=0,fxpt_in_sign=1,fxpt_in_sign_derived=1,fxpt_in_width=15,fxpt_in_width_derived=32,fxpt_out_2_fraction_derived=0,fxpt_out_2_sign_derived=0,fxpt_out_2_width_derived=16,fxpt_out_fraction=13,fxpt_out_fraction_derived=0,fxpt_out_sign=0,fxpt_out_sign_derived=1,fxpt_out_width=32,fxpt_out_width_derived=16,gen_enable=true,latency_feedback=0,latency_target=0,performance_goal=frequency,report_resources_to_xml=false,selected_device_family=Arria V,selected_device_speedgrade=4_H4,specifyLUTs=false,useLUTs=false,validation_failed=false)"
+   parameterizationKey="vector_translate:1.0:AUTO_CLK_CLOCK_DOMAIN=-1,AUTO_CLK_CLOCK_RATE=-1,AUTO_CLK_RESET_DOMAIN=-1,AUTO_DEVICE=5AGXMB1G4F40C4,AUTO_DEVICE_FAMILY=Arria V,AUTO_DEVICE_SPEEDGRADE=4_H4,AUTO_GENERATION_ID=1754918766,AUTO_UNIQUE_ID=(altera_CORDIC:23.1:ALL_function=VECTRANSLATE,FUNCTION_FAMILY=ALL,LUTSize=6,RES_DSP_param=0,RES_LUT_param=0,RES_MBIT_param=0,RES_MBLOCK_param=0,SFCompensation=false,derivedfunction=VECTRANSLATE,force_elaborate=0,frequency_feedback=0,frequency_target=40,fxpt_in_2_fraction_derived=0,fxpt_in_2_sign_derived=1,fxpt_in_2_width_derived=32,fxpt_in_fraction=0,fxpt_in_fraction_derived=0,fxpt_in_sign=1,fxpt_in_sign_derived=1,fxpt_in_width=15,fxpt_in_width_derived=32,fxpt_out_2_fraction_derived=0,fxpt_out_2_sign_derived=0,fxpt_out_2_width_derived=16,fxpt_out_fraction=13,fxpt_out_fraction_derived=0,fxpt_out_sign=0,fxpt_out_sign_derived=1,fxpt_out_width=32,fxpt_out_width_derived=16,gen_enable=true,latency_feedback=0,latency_target=0,performance_goal=frequency,report_resources_to_xml=false,selected_device_family=Arria V,selected_device_speedgrade=4_H4,specifyLUTs=false,useLUTs=false,validation_failed=false)"
    instancePathKey="vector_translate"
    kind="vector_translate"
    version="1.0"
    name="vector_translate">
   <parameter name="AUTO_CLK_CLOCK_RATE" value="-1" />
-  <parameter name="AUTO_GENERATION_ID" value="1752675124" />
+  <parameter name="AUTO_GENERATION_ID" value="1754918766" />
   <parameter name="AUTO_DEVICE" value="5AGXMB1G4F40C4" />
   <parameter name="AUTO_DEVICE_FAMILY" value="Arria V" />
   <parameter name="AUTO_CLK_RESET_DOMAIN" value="-1" />
